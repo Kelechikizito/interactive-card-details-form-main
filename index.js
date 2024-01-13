@@ -105,8 +105,6 @@ function validatecardNumber() {
 
 
 
-
-
 btn.click(function (e) { 
 
     if (!form[0].checkValidity()) {
