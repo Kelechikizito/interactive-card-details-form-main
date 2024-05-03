@@ -1,8 +1,12 @@
 import './App.css';
+import Form from './components/Form';
+import Cards from './components/Cards';
 
 function App() {
   return (
-    <div className="App">
+    <div className="container">
+      <Cards />
+      <Form />
     </div>
   );
 }
