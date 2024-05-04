@@ -1,6 +1,21 @@
 import "./Form.css";
+import { useRef, useState } from "react";
+import completeLogo from "../assets/images/icon-complete.svg";
 
 const Form = () => {
+  const [first, setfirst] = useState(second)
+
+  function buttonClickHandler(e) {
+    const form = e.target.form;
+
+    console.log(form[0].validity);
+    console.log(form.checkValidity());
+
+    if (!form.checkValidity()) {
+      e.preventDefault();
+    }
+  }
+
   return (
     <div className="form">
       <form noValidate>
@@ -13,7 +28,7 @@ const Form = () => {
             type="text"
             name="cardholderName"
             id="cardHolderName"
-            placeholder="e.g. Jane Appleseed"
+            placeholder="e.g. Kelechi Ugwu"
             required
             maxLength="21"
           />
@@ -94,7 +109,25 @@ const Form = () => {
           </div>
         </div>
 
-        <button type="submit" className="form-item">
+        <div className="wrapper">
+          <div>
+            <img src={completeLogo} alt="" />
+          </div>
+
+          <div>
+            <h2>THANK YOU!</h2>
+          </div>
+
+          <div>
+            <p>We've added your card details</p>
+          </div>
+        </div>
+
+        <button
+          type="submit"
+          className="form-item"
+          onClick={buttonClickHandler}
+        >
           Confirm
         </button>
       </form>

@@ -1,47 +1,98 @@
 .form {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 form {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
-input, button {
-    padding: 0.6rem;
-    border-radius: 0.4rem;
+label {
+  font-size: x-small;
+  font-weight: bolder;
+  letter-spacing: 0.1rem;
+  color: hsl(278, 68%, 11%);
+}
+
+input,
+button {
+  padding: 0.6rem;
+  border-radius: 0.4rem;
 }
 
 input {
-    border-width: 0.01px;
+  border: 0.01rem solid hsl(270, 3%, 87%);
+  cursor: pointer;
+  font-family: "Space Grotesk", sans-serif;
+  font-optical-sizing: auto;
 }
 
-.form-item:nth-child(1), .form-item:nth-child(2), .expiry-cvc-item {
-    display: flex;
-    gap: 0.3rem;
-    flex-direction: column;
+input::placeholder {
+  font-family: "Space Grotesk", sans-serif;
+  font-optical-sizing: auto;
+  opacity: 0.7;
+}
+
+.form-item:nth-child(1),
+.form-item:nth-child(2),
+.expiry-cvc-item {
+  display: flex;
+  gap: 0.3rem;
+  flex-direction: column;
 }
 
 .form-item:nth-child(3) {
-    display: grid;
-    grid-template-columns: repeat(2, 0.5fr);
-    gap: 1rem;
+  display: grid;
+  grid-template-columns: repeat(2, 0.5fr);
+  gap: 1rem;
 }
 
 .expiry-cvc-item:nth-child(1) .input-expiry {
-    display: flex;
-    gap: 5%;
+  display: flex;
+  gap: 5%;
 }
 
 .input-expiry input {
-    width: 45%;
+  width: 45%;
+}
+
+.wrapper {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+}
+
+.wrapper div:nth-child(2) h2 {
+    margin-bottom: 0;
+    margin-top: 1.5rem;
+    letter-spacing: 0.2rem;
+    color: hsl(278, 68%, 11%);
+}
+
+.wrapper div:nth-child(3) p {
+    margin: 0.5rem 2rem 1rem;
+    color:  hsl(279, 6%, 55%);
 }
 
 button {
-    background-color: hsl(278, 68%, 11%);
-    color: white;
-    border: none;
+  background-color: hsl(278, 68%, 11%);
+  color: white;
+  border: none;
+  cursor: pointer;
 }
+
+/* ACTIVE STATES */
+
+input:focus {
+  outline: hsl(278, 94%, 30%);
+  border-color: hsl(249, 99%, 64%);
+}
+
+/* .form-item:nth-child(1),
+.form-item:nth-child(2),
+.form-item:nth-child(3) {
+  display: none;
+} */

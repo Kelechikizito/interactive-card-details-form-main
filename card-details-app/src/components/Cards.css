@@ -33,16 +33,24 @@
     justify-content: space-between;
 }
 
-
 .front-card-number {
     font-size: xx-large;
+    letter-spacing: 0.15rem;
 }
 
 .back-card {
     background-image: url(../assets/images/bg-card-back.png);
-    width: 447px;
-    height: 245px;
+    width: 415px;
+    height: 213px;
+    padding: 1rem;
     transform: scale(0.85);
+    display: flex;
+    justify-content: end;
+    align-items: center;
+}
+
+.back-card p {
+    margin-right: 3rem;
 }
 
 
