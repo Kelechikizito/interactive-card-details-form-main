@@ -3,7 +3,13 @@ import { useRef, useState } from "react";
 import completeLogo from "../assets/images/icon-complete.svg";
 
 const Form = () => {
-//   const [first, setfirst] = useState(second)
+  //   const [first, setfirst] = useState(second)
+  const firstFormItemRef = useRef(null);
+  const secondFormItemRef = useRef(null);
+  const thirdFormItemRef = useRef(null);
+  const wrapperRef = useRef(null);
+  const firstButtonRef = useRef(null);
+  const secondButtonRef = useRef(null);
 
   function buttonClickHandler(e) {
     const form = e.target.form;
@@ -13,18 +19,29 @@ const Form = () => {
 
     if (!form.checkValidity()) {
       e.preventDefault();
+    } else {
+      firstFormItemRef.current.style.display = "none";
+      secondFormItemRef.current.style.display = "none";
+      thirdFormItemRef.current.style.display = "none";
+      wrapperRef.current.style.display = "flex";
+      firstButtonRef.current.style.display = "none";
+      secondButtonRef.current.style.display = "inline-block";
+      e.preventDefault(); 
     }
   }
 
-  function keyUpHandler (e) {
-    return e.target.value;
+  function nameKeyUpHandler(e) {
+    console.log(e.target.value);
   }
 
+  function numberKeyUpHandler(e) {
+    console.log(e.target.value);
+  }
 
   return (
     <div className="form">
       <form noValidate>
-        <div className="form-item">
+        <div className="form-item" ref={firstFormItemRef}>
           <div className="label">
             <label htmlFor="cardHolderName">CARDHOLDER NAME</label>
           </div>
@@ -36,13 +53,13 @@ const Form = () => {
             placeholder="e.g. Kelechi Ugwu"
             required
             maxLength="21"
-            onKeyUp={keyUpHandler}
+            onKeyUp={nameKeyUpHandler}
           />
 
           <span className="error name-error"></span>
         </div>
 
-        <div className="form-item">
+        <div className="form-item" ref={secondFormItemRef}>
           <div className="label">
             <label htmlFor="cardNumber">CARD NUMBER</label>
           </div>
@@ -57,12 +74,13 @@ const Form = () => {
             required
             pattern="[0-9 ]*"
             inputMode="numeric"
+            onKeyUp={numberKeyUpHandler}
           />
 
           <span className="error card-no-error"></span>
         </div>
 
-        <div className="form-item expiry-cvc">
+        <div className="form-item expiry-cvc" ref={thirdFormItemRef}>
           <div className="expiry-cvc-item">
             <div className="label">
               <label htmlFor="expiryMonth expiryYear">EXP. DATE (MM/YY)</label>
@@ -115,7 +133,7 @@ const Form = () => {
           </div>
         </div>
 
-        <div className="wrapper">
+        <div className="wrapper" ref={wrapperRef}>
           <div>
             <img src={completeLogo} alt="" />
           </div>
@@ -133,6 +151,15 @@ const Form = () => {
           type="submit"
           className="form-item"
           onClick={buttonClickHandler}
+          ref={firstButtonRef}
+        >
+          Confirm
+        </button>
+
+        <button
+          type="submit"
+          className="form-item secondButton"
+          ref={secondButtonRef}
         >
           Confirm
         </button>
