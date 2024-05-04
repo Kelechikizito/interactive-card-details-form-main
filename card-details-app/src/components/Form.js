@@ -3,7 +3,7 @@ import { useRef, useState } from "react";
 import completeLogo from "../assets/images/icon-complete.svg";
 
 const Form = () => {
-  const [first, setfirst] = useState(second)
+//   const [first, setfirst] = useState(second)
 
   function buttonClickHandler(e) {
     const form = e.target.form;
@@ -15,6 +15,11 @@ const Form = () => {
       e.preventDefault();
     }
   }
+
+  function keyUpHandler (e) {
+    return e.target.value;
+  }
+
 
   return (
     <div className="form">
@@ -31,6 +36,7 @@ const Form = () => {
             placeholder="e.g. Kelechi Ugwu"
             required
             maxLength="21"
+            onKeyUp={keyUpHandler}
           />
 
           <span className="error name-error"></span>
