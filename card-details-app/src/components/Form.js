@@ -4,12 +4,21 @@ import completeLogo from "../assets/images/icon-complete.svg";
 
 const Form = () => {
   //   const [first, setfirst] = useState(second)
-  const firstFormItemRef = useRef(null);
-  const secondFormItemRef = useRef(null);
-  const thirdFormItemRef = useRef(null);
-  const wrapperRef = useRef(null);
-  const firstButtonRef = useRef(null);
-  const secondButtonRef = useRef(null);
+  const [
+    firstFormItemRef,
+    secondFormItemRef,
+    thirdFormItemRef,
+    wrapperRef,
+    firstButtonRef,
+    secondButtonRef,
+  ] = [
+    useRef(null),
+    useRef(null),
+    useRef(null),
+    useRef(null),
+    useRef(null),
+    useRef(null),
+  ];
 
   function buttonClickHandler(e) {
     const form = e.target.form;
@@ -26,7 +35,7 @@ const Form = () => {
       wrapperRef.current.style.display = "flex";
       firstButtonRef.current.style.display = "none";
       secondButtonRef.current.style.display = "inline-block";
-      e.preventDefault(); 
+      e.preventDefault();
     }
   }
 
