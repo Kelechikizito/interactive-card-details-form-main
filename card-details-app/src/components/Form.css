@@ -36,6 +36,11 @@ input {
   font-optical-sizing: auto;
 }
 
+.invalid {
+  outline: hsl(0, 100%, 66%);
+  border: 0.01rem solid hsl(0, 100%, 66%);
+}
+
 input::placeholder {
   font-family: "Space Grotesk", sans-serif;
   font-optical-sizing: auto;

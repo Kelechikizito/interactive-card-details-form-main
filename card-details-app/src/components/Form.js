@@ -3,7 +3,8 @@ import { useRef, useState } from "react";
 import completeLogo from "../assets/images/icon-complete.svg";
 
 const Form = ({setFormData, formData}) => {
-  //   const [first, setfirst] = useState(second)
+//   const [isActive, setIsActive] = useState(false);
+
   const [
     firstFormItemRef,
     secondFormItemRef,
@@ -50,7 +51,9 @@ const Form = ({setFormData, formData}) => {
         if (iscardNameEmpty) {
             nameErrorRef.current.style.display = 'inline-block';
             nameErrorRef.current.textContent = "Can't be blank";
+            cardNameRef.current.className += 'invalid'
         } else {
+            cardNameRef.current.className -= 'invalid'
             nameErrorRef.current.style.display = 'none';
         }
     }
@@ -62,7 +65,11 @@ const Form = ({setFormData, formData}) => {
         if (isMonthEmpty || isYearEmpty) {
             dateErrorRef.current.style.display = 'inline-block';
             dateErrorRef.current.textContent = "Can't be blank";
+            expiryMonthRef.current.className += 'invalid'
+            expiryYearRef.current.className += 'invalid'
         } else {
+            expiryYearRef.current.className -= 'invalid'
+            expiryMonthRef.current.className -= 'invalid'
             dateErrorRef.current.style.display = 'none';
         }
     }
@@ -74,7 +81,9 @@ const Form = ({setFormData, formData}) => {
         if (isCvcEmpty) {
             cvcErrorRef.current.style.display = 'inline-block';
             cvcErrorRef.current.textContent = "Can't be blank";
+            cvcRef.current.className += ' invalid'
         } else {
+            cvcRef.current.className -= ' invalid'
             cvcErrorRef.current.style.display = 'none';
         }
 
@@ -91,21 +100,26 @@ const Form = ({setFormData, formData}) => {
     function validateCardNumber () {
         const isCardNumberEmpty = cardNumberRef.current.validity.valueMissing;
         const isCardNumberPatternWrong = cardNumberRef.current.validity.patternMismatch;
-        console.log(cardNumberRef.current.validity);
+        console.log(cardNameRef.current.validity);
 
         if (isCardNumberEmpty) {
             cardNumberErrorRef.current.style.display = 'inline-block';
             cardNumberErrorRef.current.textContent = "Can't be blank";
-        } else {
-            cardNumberErrorRef.current.style.display = 'none';
-        }
-
-        if (isCardNumberPatternWrong) {
+            cardNumberRef.current.className += 'invalid'
+        } else if (isCardNumberPatternWrong) {
+            cardNumberRef.current.className += ' invalid'
             cardNumberErrorRef.current.style.display = 'inline-block';
             cardNumberErrorRef.current.textContent = "Wrong format, numbers only";
-        } else {
+        } else if (!isCardNumberPatternWrong || !isCardNumberEmpty) {
             cardNumberErrorRef.current.style.display = 'none';
-        }
+            cardNumberRef.current.className -= 'invalid'
+        } //  else if (cardNameRef.current.textContent.length < 19) {
+        //     cardNumberErrorRef.current.style.display = 'inline-block';
+        //     cardNumberErrorRef.current.textContent = "Wrong format, Too short";
+        //     return false; 
+        // } else if (cardNameRef.current.value.length === 19) {
+        //     cardNumberErrorRef.current.style.display = 'none';
+        //   }
     }
 
     if (!form.checkValidity()) {
@@ -181,7 +195,7 @@ const Form = ({setFormData, formData}) => {
             id="cardNumber"
             placeholder="e.g. 1234 5678 9123 0000"
             maxLength="19"
-            minLength="19"
+            minLength='19'
             required
             pattern="[0-9 ]*"
             inputMode="numeric"
