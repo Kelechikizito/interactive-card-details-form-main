@@ -51,9 +51,9 @@ const Form = ({setFormData, formData}) => {
         if (iscardNameEmpty) {
             nameErrorRef.current.style.display = 'inline-block';
             nameErrorRef.current.textContent = "Can't be blank";
-            cardNameRef.current.className += 'invalid'
+            cardNameRef.current.classList.add('invalid');
         } else {
-            cardNameRef.current.className -= 'invalid'
+            cardNameRef.current.classList.remove('invalid');
             nameErrorRef.current.style.display = 'none';
         }
     }
@@ -65,11 +65,11 @@ const Form = ({setFormData, formData}) => {
         if (isMonthEmpty || isYearEmpty) {
             dateErrorRef.current.style.display = 'inline-block';
             dateErrorRef.current.textContent = "Can't be blank";
-            expiryMonthRef.current.className += 'invalid'
-            expiryYearRef.current.className += 'invalid'
+            expiryMonthRef.current.classList.add('invalid')
+            expiryYearRef.current.classList.add('invalid')
         } else {
-            expiryYearRef.current.className -= 'invalid'
-            expiryMonthRef.current.className -= 'invalid'
+            expiryMonthRef.current.classList.remove('invalid')
+            expiryYearRef.current.classList.remove('invalid')
             dateErrorRef.current.style.display = 'none';
         }
     }
@@ -81,9 +81,9 @@ const Form = ({setFormData, formData}) => {
         if (isCvcEmpty) {
             cvcErrorRef.current.style.display = 'inline-block';
             cvcErrorRef.current.textContent = "Can't be blank";
-            cvcRef.current.className += ' invalid'
+            cvcRef.current.classList.add('invalid')
         } else {
-            cvcRef.current.className -= ' invalid'
+            cvcRef.current.classList.remove('invalid')
             cvcErrorRef.current.style.display = 'none';
         }
 
@@ -107,12 +107,12 @@ const Form = ({setFormData, formData}) => {
             cardNumberErrorRef.current.textContent = "Can't be blank";
             cardNumberRef.current.className += 'invalid'
         } else if (isCardNumberPatternWrong) {
-            cardNumberRef.current.className += ' invalid'
+            cardNumberRef.current.classList.add('invalid');
             cardNumberErrorRef.current.style.display = 'inline-block';
             cardNumberErrorRef.current.textContent = "Wrong format, numbers only";
         } else if (!isCardNumberPatternWrong || !isCardNumberEmpty) {
             cardNumberErrorRef.current.style.display = 'none';
-            cardNumberRef.current.className -= 'invalid'
+            cardNumberRef.current.classList.remove('invalid');
         } //  else if (cardNameRef.current.textContent.length < 19) {
         //     cardNumberErrorRef.current.style.display = 'inline-block';
         //     cardNumberErrorRef.current.textContent = "Wrong format, Too short";
