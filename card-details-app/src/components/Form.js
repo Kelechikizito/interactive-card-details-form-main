@@ -2,7 +2,7 @@ import "./Form.css";
 import { useRef, useState } from "react";
 import completeLogo from "../assets/images/icon-complete.svg";
 
-const Form = () => {
+const Form = ({setFormData, formData}) => {
   //   const [first, setfirst] = useState(second)
   const [
     firstFormItemRef,
@@ -11,7 +11,25 @@ const Form = () => {
     wrapperRef,
     firstButtonRef,
     secondButtonRef,
+    cardNameRef,
+    cardNumberRef,
+    expiryMonthRef,
+    expiryYearRef,
+    cvcRef,
+    nameErrorRef,
+    dateErrorRef,
+    cvcErrorRef,
+    cardNumberErrorRef
   ] = [
+    useRef(null),
+    useRef(null),
+    useRef(null),
+    useRef(null),
+    useRef(null),
+    useRef(null),
+    useRef(null),
+    useRef(null),
+    useRef(null),
     useRef(null),
     useRef(null),
     useRef(null),
@@ -23,10 +41,78 @@ const Form = () => {
   function buttonClickHandler(e) {
     const form = e.target.form;
 
-    console.log(form[0].validity);
-    console.log(form.checkValidity());
+    // console.log(form[0].validity);
+    // console.log(form.checkValidity());
+
+    function validateCardName () {
+        const iscardNameEmpty = cardNameRef.current.validity.valueMissing;
+
+        if (iscardNameEmpty) {
+            nameErrorRef.current.style.display = 'inline-block';
+            nameErrorRef.current.textContent = "Can't be blank";
+        } else {
+            nameErrorRef.current.style.display = 'none';
+        }
+    }
+
+    function validateExpiryDate () {
+        const isMonthEmpty = expiryMonthRef.current.validity.valueMissing;
+        const isYearEmpty = expiryYearRef.current.validity.valueMissing;
+
+        if (isMonthEmpty || isYearEmpty) {
+            dateErrorRef.current.style.display = 'inline-block';
+            dateErrorRef.current.textContent = "Can't be blank";
+        } else {
+            dateErrorRef.current.style.display = 'none';
+        }
+    }
+
+    function validateCvc () {
+        const isCvcEmpty = cvcRef.current.validity.valueMissing;
+        // console.log(cvcRef.current.validity.valid)
+
+        if (isCvcEmpty) {
+            cvcErrorRef.current.style.display = 'inline-block';
+            cvcErrorRef.current.textContent = "Can't be blank";
+        } else {
+            cvcErrorRef.current.style.display = 'none';
+        }
+
+        // if (cvcRef.current.textContent < 3) {
+        //     cvcRef.current.validity.valid = false;
+        //     cvcErrorRef.current.style.display = 'inline-block';
+        //     cvcErrorRef.current.textContent = "Invalid format";
+        // } else {
+        //     cvcErrorRef.current.style.display = 'none';
+        //     cvcRef.current.validity.valid = true;
+        // }
+    }
+
+    function validateCardNumber () {
+        const isCardNumberEmpty = cardNumberRef.current.validity.valueMissing;
+        const isCardNumberPatternWrong = cardNumberRef.current.validity.patternMismatch;
+        console.log(cardNumberRef.current.validity);
+
+        if (isCardNumberEmpty) {
+            cardNumberErrorRef.current.style.display = 'inline-block';
+            cardNumberErrorRef.current.textContent = "Can't be blank";
+        } else {
+            cardNumberErrorRef.current.style.display = 'none';
+        }
+
+        if (isCardNumberPatternWrong) {
+            cardNumberErrorRef.current.style.display = 'inline-block';
+            cardNumberErrorRef.current.textContent = "Wrong format, numbers only";
+        } else {
+            cardNumberErrorRef.current.style.display = 'none';
+        }
+    }
 
     if (!form.checkValidity()) {
+      validateCardName();
+      validateCardNumber();
+      validateExpiryDate();
+      validateCvc();
       e.preventDefault();
     } else {
       firstFormItemRef.current.style.display = "none";
@@ -39,12 +125,27 @@ const Form = () => {
     }
   }
 
-  function nameKeyUpHandler(e) {
-    console.log(e.target.value);
-  }
+  function changeHandler (e) {
+    const {name, value} = e.target;
 
-  function numberKeyUpHandler(e) {
-    console.log(e.target.value);
+    if (name === 'cardNumber') {
+        e.target.value = value.replace(/\s/g, '').replace(/(.{4})/g, '$1 ').trim().slice(0, 19);
+    }
+
+    if (name === 'expiryMonth' || name === 'expiryYear') {
+        e.target.value = value.toString().replace(/[^0-9]/g, '').substring(0, 2);
+    }
+
+    if (name === 'expiryMonth' && value > 12) {
+        e.target.value = '12';
+    }
+
+    if (name === 'cvc') {
+        e.target.value = value.toString().replace(/[^0-9]/g, '').substring(0, 4);
+    }
+
+    setFormData({ ...formData, [name]: e.target.value })
+
   }
 
   return (
@@ -58,14 +159,15 @@ const Form = () => {
           <input
             type="text"
             name="cardholderName"
-            id="cardHolderName"
+            id="cardHolderName"cardNameRef
             placeholder="e.g. Kelechi Ugwu"
             required
             maxLength="21"
-            onKeyUp={nameKeyUpHandler}
+            onChange={changeHandler}
+            ref={cardNameRef}
           />
 
-          <span className="error name-error"></span>
+          <span className="error name-error" ref={nameErrorRef}>aaa</span>
         </div>
 
         <div className="form-item" ref={secondFormItemRef}>
@@ -78,15 +180,16 @@ const Form = () => {
             name="cardNumber"
             id="cardNumber"
             placeholder="e.g. 1234 5678 9123 0000"
-            maxLength="16"
-            minLength="16"
+            maxLength="19"
+            minLength="19"
             required
             pattern="[0-9 ]*"
             inputMode="numeric"
-            onKeyUp={numberKeyUpHandler}
+            onChange={changeHandler}
+            ref={cardNumberRef}
           />
 
-          <span className="error card-no-error"></span>
+          <span className="error card-no-error" ref={cardNumberErrorRef}></span>
         </div>
 
         <div className="form-item expiry-cvc" ref={thirdFormItemRef}>
@@ -106,6 +209,8 @@ const Form = () => {
                 minLength="2"
                 pattern="[0-9]*"
                 inputMode="numeric"
+                onChange={changeHandler}
+                ref={expiryMonthRef}
               />
               <input
                 type="text"
@@ -117,10 +222,12 @@ const Form = () => {
                 minLength="2"
                 pattern="[0-9]*"
                 inputMode="numeric"
+                onChange={changeHandler}
+                ref={expiryYearRef}
               />
             </div>
 
-            <span className="error date-error"></span>
+            <span className="error date-error" ref={dateErrorRef}></span>
           </div>
 
           <div className="expiry-cvc-item">
@@ -132,13 +239,15 @@ const Form = () => {
               name="cvc"
               id="cvc"
               placeholder="e.g. 123"
-              maxLength="3"
+              maxLength="4"
               minLength="3"
               required
               pattern="[0-9]*"
               inputMode="numeric"
+              onChange={changeHandler}
+              ref={cvcRef}
             />
-            <span className="error cvc-error"></span>
+            <span className="error cvc-error" ref={cvcErrorRef}></span>
           </div>
         </div>
 

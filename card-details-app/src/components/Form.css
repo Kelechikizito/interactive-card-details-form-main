@@ -23,6 +23,12 @@ button {
   border-radius: 0.4rem;
 }
 
+.error {
+  display: none;
+  font-size: x-small;
+  color: hsl(0, 100%, 66%);
+}
+
 input {
   border: 0.01rem solid hsl(270, 3%, 87%);
   cursor: pointer;
